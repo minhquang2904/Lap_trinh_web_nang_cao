@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <title>Bài 2</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body{
+            display: flex;
+            height: 100vh;
+        }
+
+        .content{
+            margin: auto;
+            min-width: 500px;
+            border: 2px solid #e0e4e8;
+            padding: 10px;
+        }
+
+        .tutorial{
+            margin: 16px 0;
+        }
+
+        .btn-download{
+            margin-bottom: 16px;
+        }
+
+        .btn{
+            border: none;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            font-weight: 540;
+            outline: none;
+        }
+
+        .btn:hover{
+            opacity: 0.9;
+        }
+
+        .btn.btn--fetch{
+            background-color: #dc3645 ;
+            color: #ffffff;
+        }
+
+        .btn.btn--ajax{
+            background-color: #ffc108 ;
+        }
+
+        .list-title th{
+            font-weight: 600;
+        }   
+
+        table{
+            border-collapse:collapse;
+            width: 100%;
+        }
+
+        table, td , th{
+            border-top: 1px solid #dee2e6;
+        }
+
+        th, td{
+            padding: 10px;
+            text-align: left;
+        }
+
+        .cl-white{
+            background-color: #ffffff !important;
+        }
+
+        tr:nth-child(even){
+            background-color: #ffffff;
+        }
+
+        tr:nth-child(odd){
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h3 class="title">Danh sách sinh viên</h3>
+        <p class="tutorial">Nhấn một trong hai button để tải danh sách sinh viên</p>
+        <div class="btn-download">
+            <button id="btnFetch" class="btn btn--fetch">Tải bằng Fetch API</button>
+            <button id="btnAjax" class="btn btn--ajax">Tải bằng Ajax</button>
+        </div>
+        <table class="table-list">
+            <tr class="list-title cl-white">
+                <th class="list-title__id">ID</th>
+                <th class="list-title__name">Name</th>
+                <th class="list-title__age">Age</td>
+            </tr>
+            <tbody id="tb-body">
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script>
+
+    const data = 'https://maivanmanh.github.io/503106/lab01/students.json'
+
+    const btnFetch = document.querySelector('#btnFetch');
+    const btnAjax = document.querySelector('#btnAjax');
+    const tbBody = document.querySelector('#tb-body');
+
+    btnAjax.addEventListener('click', loadAjax);
+    btnFetch.addEventListener('click', loadFetch);
+
+    function loadAjax(){
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "json";
+        xhr.addEventListener('load', e =>{
+            if(xhr.readyState == 4){
+                if(xhr.status == 200){
+                    const json = xhr.response;
+                    const user = json.data;
+                    tbBody.innerHTML = '';
+                    user.forEach(item =>{
+                        const tr = document.createElement('tr');
+                        const td1 = document.createElement('td');
+                        const td2 = document.createElement('td');
+                        const td3 = document.createElement('td');
+
+                        td1.innerHTML = item.id;
+                        td2.innerHTML = item.name;
+                        td3.innerHTML = item.age;
+
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+
+                        tbBody.appendChild(tr)
+                    });
+                }
+                else{
+                    console.log(e);
+                }
+            }
+        })
+
+        xhr.open('GET', data , true);
+        xhr.send();
+    }
+
+    function loadFetch(){
+        fetch(data)
+        .then(result => {
+            return result.json();
+        })
+        .then(json => {
+            const user = json.data;
+            tbBody.innerHTML = '';
+            user.forEach(item =>{
+                const tr = document.createElement('tr');
+                const td1 = document.createElement('td');
+                const td2 = document.createElement('td');
+                const td3 = document.createElement('td');
+
+                td1.innerHTML = item.id;
+                td2.innerHTML = item.name;
+                td3.innerHTML = item.age;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+
+                tbBody.appendChild(tr)
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+</script>
+</html>

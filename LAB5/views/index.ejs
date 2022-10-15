@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Danh sách sản phẩm</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container my-3">
+    <h4 class="my-5 text-primary text-center text-uppercase">Danh sách người dùng</h4>
+    <a class="btn btn-success btn-sm my-4" href="/add">Thêm người dùng</a>
+    <p>Chọn một người dùng để xem chi tiết</p>
+    <table class="table table-striped border">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>Giới tính</th>
+            <th>Tuổi</th>
+            <th>Email</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% 
+            var count = 1
+            for( var i = 0; i < user.length ; i++) {
+            %>
+            <tr id="<%= user[i].id %>">
+                <td><%= count++ %></td>
+                <td><a href="/profile/<%= user[i].id %>"><%= user[i].name %></a></td>
+                <td><%= user[i].gender %></td>
+                <td><%= user[i].age %></td>
+                <td><%= user[i].email %></td>
+                <td>
+                    <button data-id="<%= user[i].id %>" data-name="<%= user[i].name %>" data-age="<%= user[i].age %>" data-gender="<%= user[i].gender %>" data-email="<%= user[i].email %>" class="btn btn-sm btn-outline-primary btn-edit">Chỉnh sửa</button>
+                    <button data-id="<%= user[i].id %>" data-name="<%= user[i].name %>" class="btn btn-sm btn-outline-danger btn-delete">Xóa</button>
+                </td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <p>Tổng số người dùng: <strong class="text-danger"><%= user.length%></strong></p>
+</div>
+
+<div style="display: none;" id="flash-alert" class="alert alert-success text-center w-25 mx-auto my-3">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <span>Đã xóa người dùng <strong>Nguyễn Xuân Vinh</strong></span>
+</div>
+
+
+<!-- Confirm delete -->
+<div id="modal-dialog-delete" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Xóa người dùng</h4>
+          <button style="outline: none;" type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body modal-name">
+          Bạn có chắc rằng muốn xóa <strong>Trần Minh Trí</strong>?
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button data-id="id" id="btn-delete-success" type="button" class="btn btn-danger">Xóa</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<!-- End Confirm delete -->
+
+
+<!-- Update user -->
+<div id="modal-dialog-edit" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Cập nhật thông tin người dùng</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            
+                <div class="form-group">
+                    <label for="user">Họ tên</label>
+                    <input value="" class="form-control" type="text" placeholder="Nhập tên người dùng" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input checked type="radio" class="custom-control-input" id="gender-male" name="gender">
+                        <label class="custom-control-label" for="gender-male">Nam</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="gender-female" name="gender">
+                        <label class="custom-control-label" for="gender-female">Nữ</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="age">Tuổi</label>
+                    <input value="20" maxlength="3" class="form-control" type="number" placeholder="Nhập tuổi" min="18" max="100" id="age" name="age">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input value="tri@gmail.com" class="form-control" type="text" placeholder="Nhập email" id="email" name="email">
+                </div>
+                <!-- <div class="alert alert-danger">
+                    Vui lòng nhập đầy đủ thông tin
+                </div> -->
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button id="btn-edit-success" data-age="age" data-email="email" data-gender="gender" data-name="name" data-id="id" type="button" class="btn btn-primary">Cập nhật</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<!-- End Update user -->
+
+
+<script>
+    // setTimeout(() => {
+    //     $('#flash-alert').fadeOut(2000)
+    // }, 1000);
+
+    $('.btn-delete').click(e => {
+      const btn = e.target
+      const id = btn.dataset.id
+      const name = btn.dataset.name
+
+      $('.modal-name strong').html(name)
+      $('#btn-delete-success').attr('data-id', id)
+      $('#modal-dialog-delete').modal('show');
+    });
+
+    $('#btn-delete-success').click(e => {
+      const btn = e.target
+      const id = btn.dataset.id
+      $('#modal-dialog-delete').modal('hide');
+      
+      fetch('http://localhost:8080/delete/' + id, {
+        method: 'POST'
+      })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        if(json.code == 0){
+          document.getElementById(id).remove();
+        }
+      })
+      .catch(e => console.log(e))
+    });
+
+    $('.btn-edit').click(e => {
+      const btn = e.target
+      const id = btn.dataset.id
+      const name = btn.dataset.name
+      const gender = btn.dataset.gender
+      const age = btn.dataset.age
+      const email = btn.dataset.email
+
+      $('#name').val(name)
+      if(gender == 'male'){
+        $('#gender-male').prop("checked", true);
+      }else if(gender == 'female'){
+        $('#gender-female').prop("checked", true);
+      }
+      $('#age').val(age)
+      $('#email').val(email)
+
+      $('#btn-edit-success').attr('data-id', id)
+      $('#btn-edit-success').attr('data-name', name)
+      $('#btn-edit-success').attr('data-age', age)
+      $('#btn-edit-success').attr('data-gender', gender)
+      $('#btn-edit-success').attr('data-email', email)
+
+      $("#name").change(e =>{
+        $('#btn-edit-success').attr('data-name',e.target.value)
+      })
+
+      $('#modal-dialog-edit').modal('show')
+    });
+
+    $('#btn-edit-success').click(e => {
+      const btn = e.target
+      const id = btn.dataset.id
+      const name = btn.dataset.name
+      const age = btn.dataset.age
+      const gender = btn.dataset.gender
+      const email = btn.dataset.email
+
+      let user = JSON.stringify({
+          id:id,
+          name:name,
+          gender:gender,
+          age:age,
+          email:email
+      })
+
+      $('#modal-dialog-edit').modal('hide')
+
+      fetch('http://localhost:8080/edit', {
+        method: 'POST',
+        body: `user=${encodeURIComponent(user)}`,
+        headers: {"Content-type": "application/json;charset=UTF-8"},
+      })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+      })
+      .catch(e => console.log(e))
+    });
+</script>
+
+</body>
+</html>

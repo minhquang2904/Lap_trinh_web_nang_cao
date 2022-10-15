@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <title>Bài 3 Promise</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-family: 'Roboto', sans-serif; 
+        }
+
+        body{
+            display: flex;
+            min-height: 100vh;
+        }
+
+        img{
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        .content{
+            margin: auto;
+        }
+
+        .pd-url-btn{
+            padding: 4px 8px;
+            height: 26px;
+            font-size: 12px;
+            border-radius: 2px;
+        }
+
+        .input-url{
+            margin: 16px 0 26px 0 ;
+            outline: none;
+            border: 1px solid #ced4da;
+            width: 200px;
+        }
+
+        .btn-see-picture{
+            border: none;
+            color: #ffffff;
+            background-color: #dc3645;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .show-picture{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h3 class="title">Bài tập tải ảnh động bằng Ajax</h3>
+        <input id="data-url" type="text" class="input-url pd-url-btn" placeholder="Nhập URL">
+        <button id="seeImg" class="btn-see-picture pd-url-btn">Xem ảnh</button>
+        <a id="download-link" class="show-picture" download="picture.jpg" href="#">
+            <img id="image"  class="img">
+        </div>
+    </div>
+</body>
+
+<script>
+    const dataUrl = document.querySelector('#data-url');
+    const btnSeeImg = document.querySelector('#seeImg');
+    const image = document.querySelector('#image');
+    const downloadLink = document.querySelector('#download-link')
+    btnSeeImg.addEventListener('click', () => {
+        const url = dataUrl.value;
+        dataUrl.value = '';
+
+        load(url)
+        .then(data => {
+            image.src =  window.URL.createObjectURL(data);
+            downloadLink.href =  window.URL.createObjectURL(data);
+        })
+        .catch(e => console.log(e));
+    })
+
+    function load(url){
+        return new Promise((res, rej) =>{
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.addEventListener('load',e =>{
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200)
+                    {
+                        res(xhr.response);
+                    }else{
+                        rej(`That Bai : ${xhr.status}`);
+                    }
+                }
+            })
+
+            xhr.open('GET', url , true);
+            xhr.onerror = e => rej(e);
+            xhr.send();
+        });
+    }
+
+</script>
+</html>

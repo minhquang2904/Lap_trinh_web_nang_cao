@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet"> 
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="/style/style.css">
+    <title>Add product</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="section-add">
+            <form action="/list-product/add-product" method="post" enctype="multipart/form-data">
+                <div class="add-product">
+                    <a href="/list-product"><i class="fi fi-rr-arrow-left icon-arrow-left"></i></a>
+                    <h3 class="title-login">Thêm sản phẩm mới</h3>
+                    <div class="form-group">
+                        <label class="form-label">Tên sản phẩm</label>
+                        <input value="<%= productName %>" type="text" name="productName" class="form-input" placeholder="Nhập tên sản phẩm">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Giá sản phẩm</label>
+                        <input value="<%= productPrice %>" type="number" name="productPrice" class="form-input"  placeholder="Nhập giá sản phẩm">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ảnh sản phẩm</label>
+                        <input  class="file-input form-input" type="file" id="upload-file" name="productImg" accept="image/*">
+                        <label class="file" for="upload-file">
+                            <span class="select-img active">Chọn ảnh</span>
+                            <span class="show-text"></span>
+                            <label class = "file-browse" for="upload-file">Browse</label>
+                        </label>
+                        <p class="error-upload"></p>
+                        <p class="show-img">
+                            
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mô tả</label>
+                        <textarea class="form-input" name="productDesc" id="" placeholder="Nhập mô tả"><%= productDesc %></textarea>
+                    </div>
+                    <% if (locals.error) { %>
+                        <div class="errow-message">
+                            <%= error %>
+                        </div>
+                    <% } %>
+                    <div class="form-btn">
+                        <button class="btn">Thêm sản phẩm</button>
+                    </div>
+                </dib>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script src="/js/main.js"></script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet"> 
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="/style/style.css">
+    <title>List product</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="section-product">
+            <div class="product">
+                <div class="title-product">
+                    <h2>Danh sách sản phẩm</h3>
+                    <span>
+                        <a href="/list-product/add-product">
+                            <i class="fi fi-rr-add"></i>
+                            <span class="display-none">Thêm sản phẩm</span>
+                        </a>
+                    </span>
+                </div>
+                <table>
+                    <tr>
+                        <th class="display-none">STT</th>
+                        <th>Tên sản phẩm</th>
+                        <th class="display-none">Giá</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    <% products.forEach( (product, index) => { %>
+                        <tr id="<%= product.id %>" class="product-item">
+                            <td class="display-none"><%= (index + 1) %></td>
+                            <td><%= product.productName %></td>
+                            <td class="display-none">$<%= product.productPrice %></td>
+                            <td class="product-action">
+                                <a href="/list-product/see-product/<%= product.id %>"><i class="fi fi-rr-eye icon-see"></i></a>
+                                <a href="/list-product/edit-product/<%= product.id %>"><i class="fi fi-rr-edit icon-edit"></i></a>
+                                <a data-id="<%= product.id %>" data-name="<%= product.productName %>" href="/list-product/delete-product/<%= product.id %>"><i class="fi fi-rr-trash icon-delete"></i></a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-delete">
+            <div class="modal-tilte">
+                <h3>Xóa sản phẩm</h3>
+                <i class="fi fi-rr-cross icon-close-modal"></i>
+            </div>
+            <div class="modal-content">
+                <span class="modal-name-product">Bạn muốn xóa sản phẩm <strong>iPhone 12 Pro Max ?</strong></span>
+            </div>
+            <div class="modal-btn">
+                <button class="modal-btn-close">Đóng</button>
+                <button data-id="" class="modal-btn-delete">Xóa</button>
+            </div>
+        </div>
+    </div>
+    <% if(message) { %>
+        <div class="message-notify message-<%=message.type%>">
+            <strong><%=message.intro%></strong> <%=message.message%>
+        </div>
+    <% } %>
+</body>
+
+<script src="/js/main.js"></script>
+</html>

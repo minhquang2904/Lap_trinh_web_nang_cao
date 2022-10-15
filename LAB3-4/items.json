@@ -1,0 +1,51 @@
+[
+    {
+        "id": "r12dT8tfCAiwn82hdswY2v",
+        "productName": "Macbook Air 2020",
+        "productPrice": 899,
+        "productImg": "uploads/tải xuống.jfif",
+        "productDesc": "Macbook Air 2020"
+    },
+    {
+        "id": "fPHrobdoH9CAHvHe9kuPrW",
+        "productName": "iPhone 12 Pro Max",
+        "productPrice": 1299,
+        "productImg": "uploads/i-phone-12-pro-max-9-1605283243131.webp",
+        "productDesc": "Apple"
+    },
+    {
+        "id": "9itdTz3uySmuXhsqpe6KJY",
+        "productName": "Samsung Galaxy S21 Ultra 5G",
+        "productPrice": 2119,
+        "productImg": "uploads/samsung-galaxy-s21-ultra-gia-bao-nhieu-didongviet-01.jpg",
+        "productDesc": "Samsung"
+    },
+    {
+        "id": "5UJPCo9JTTz3dx8iYRNodo",
+        "productName": "Asus VivoBook 14 và VivoBook 15",
+        "productPrice": 899,
+        "productImg": "uploads/asus-vivobook-14-15-phong-vu-3.jpg",
+        "productDesc": "Asus VivoBook "
+    },
+    {
+        "id": "sDj7MGfQG3x5vhcugsyhcT",
+        "productName": "Xiaomi 12",
+        "productPrice": 1499,
+        "productImg": "uploads/dtxiaomi12-2_1280x720-800-resize.jpg",
+        "productDesc": "Xiaomi 12"
+    },
+    {
+        "id": "niAonen1YM8TgVuPPGSBqz",
+        "productName": "Bàn phím AKKO PC75B Plus Year of Tiger",
+        "productPrice": 200,
+        "productImg": "uploads/ban-phim-akko-pc75b-plus-year-of-tiger-3.jpg",
+        "productDesc": "Bàn phím AKKO"
+    },
+    {
+        "id": "pGmsL2gkhuafAPbxADwQRd",
+        "productName": "Apple Watch Series 7",
+        "productPrice": 399,
+        "productImg": "uploads/apple-watch-series-7-2.jpg",
+        "productDesc": "Apple Watch Series 7"
+    }
+]

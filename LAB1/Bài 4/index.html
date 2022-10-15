@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <title>Bài 4</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-family: 'Roboto' , sans-serif;
+        }
+
+        body{
+            display: flex;
+            min-height: 100vh;
+        }
+
+        input{
+            outline: none;
+            border: 1px solid #d9d9d9;
+            padding: 8px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .content{
+            margin: auto;
+            border: 2px solid #e0e4e8;
+            padding: 10px;
+            max-width: 920px;
+        }
+
+        .form-group{
+            margin: 16px 0 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-input{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-input__title{
+            margin-bottom: 8px;
+            font-weight: 590;
+        }
+
+        .tutorial{
+            margin-bottom: 16px;
+            font-weight: 590;
+            line-height: 20px;
+        }
+
+        .btn-add{
+            margin-bottom: 26px;
+        }
+
+        .btn{
+            outline: none;
+            border: none;
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn.btn-local{
+            background-color: #007bff;
+        }
+
+        .btn.btn-session{
+            background-color: #dc3645;
+        }
+
+        .table-group{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .table{
+            flex: 1;
+        }
+
+        .heading-local{
+            color: #007bff;
+        }
+
+        .heading-session{
+            color: #dc3645;
+        }
+
+        .table-heading{
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        table{
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+        table, td,th{
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .form-input,
+        table{
+            width: 100%;
+        }
+
+        .mr{
+            margin-right: 20px;
+        }
+
+        .cl-white{
+            background-color: #ffffff !important;
+        }
+
+        tr:nth-child(even){
+            background: #ffffff;
+        }
+
+        tr:nth-child(odd){
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2 class="title">Danh sách sinh viên</h2>
+        <div class="form-group">
+            <div class="form-input mr">
+                <label class="form-input__title">Họ và tên</label>
+                <input type="text" class="input" id="name" name="name"  placeholder="Nhập tên">
+            </div>
+            <div class="form-input">
+                <label class="form-input__title">Tuổi</label>
+                <input type="number" class="input" id="age" name="age" placeholder="Nhập tuổi">
+            </div>
+        </div>
+        <p class="tutorial">Chọn một trong hai button, sau đó dữ liệu được thêm vào một trong hai bảng tương ứng. Ngoài ra, dữ liệu cũng được lưu vào một trong hai loại storage tương ứng.</p>
+        <div class="btn-add">
+            <button id="btnLocal" class="btn btn-local">Thêm Local Storage</button>
+            <button id="btnSession" class="btn btn-session">Thêm Session Storage</button>
+        </div>
+        <div class="table-group">
+            <div class="table table-local mr">
+                <h4 class="table-heading  heading-local">LocalStorage</h4>
+                <table>
+                    <tr class="cl-white">
+                        <th>STT</th>
+                        <th>Tên</th>
+                        <th>Tuổi</th>
+                    </tr>
+                    <tbody id="table-local__tb">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="table table-session">
+                <h4 class="table-heading heading-session">SessionStorage</h4>
+                <table>
+                    <tr class="cl-white">
+                        <th>STT</th>
+                        <th>Tên</th>
+                        <th>Tuổi</th>
+                    </tr>
+                    <tbody id="table-session__tb">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    window.addEventListener('load', (event) =>{
+        const btnLocal = document.querySelector('#btnLocal');
+        const btnSession = document.querySelector('#btnSession');
+
+        let  localSt = JSON.parse(window.localStorage.getItem("st"));
+        let sessionSt = JSON.parse(window.sessionStorage.getItem("st"));
+
+        if(!localSt){
+            localSt = [];
+        }
+
+        localSt.forEach(e => dStudent(e, 'table-local__tb'))
+
+        if(!sessionSt){
+            sessionSt = [];
+        }
+
+        sessionSt.forEach(e => dStudent(e, 'table-session__tb'))
+
+        btnLocal.addEventListener('click',() =>{
+            let name = document.querySelector('#name').value;
+            let age = document.querySelector('#age').value;
+            let id = localSt.length + 1;
+            
+            document.querySelector('#name').value = '';
+            document.querySelector('#age').value = '';
+
+            localSt.push({id: id, name: name, age: age});
+            window.localStorage.setItem("st", JSON.stringify(localSt));
+            dStudent({id: id, name: name, age: age} ,'table-local__tb');
+        });
+
+        btnSession.addEventListener('click',() =>{
+            let name = document.querySelector('#name').value;
+            let age = document.querySelector('#age').value;
+            let id = sessionSt.length + 1;
+
+            document.querySelector('#name').value = '';
+            document.querySelector('#age').value = '';
+
+            sessionSt.push({id: id, name: name, age: age});
+            window.sessionStorage.setItem("st", JSON.stringify(localSt));
+            dStudent({id: id, name: name, age: age} , 'table-session__tb');
+        });
+    });
+    
+    function dStudent(st, id){
+        const tbody = document.getElementById(id);
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td');
+        const td2 = document.createElement('td');
+        const td3 = document.createElement('td');
+
+        td1.innerHTML = st.id;
+        td2.innerHTML = st.name;
+        td3.innerHTML = st.age;
+
+        tr.append(td1);
+        tr.append(td2);
+        tr.append(td3);
+
+        tbody.append(tr);
+        console.log(tr)
+        // tbody.append(`
+        //     <tr>
+        //         <td>${st.id}</td>
+        //         <td>${st.name}</td>
+        //         <td>${st.age}</td>
+        //     </tr>
+        // `)
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</html>

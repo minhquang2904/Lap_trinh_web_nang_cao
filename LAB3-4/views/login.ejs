@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet"> 
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="/style/style.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="section-login">
+            <form action="/login" method="post">
+                <div class="login">
+                    <h3 class="title-login">Đăng nhập</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="label-email">Email</label>
+                        <input value="<%= email %>" type="text" name="email" class="form-input" id="label-email" placeholder="Nhập email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="label-password">Mật khẩu</label>
+                        <input value="<%= password %>" type="password" name="password" class="form-input"  id="label-password" placeholder="Nhập mật khẩu">
+                    </div>
+                    <% if (locals.error) { %>
+                        <div class="errow-message">
+                            <%= error %>
+                        </div>
+                    <% } %>
+                    <div class="form-btn">
+                        <button class="btn">Đăng nhập</button>
+                        <i class="fi fi-rr-arrow-right icon-arrow"></i>
+                    </div>
+                </dib>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
